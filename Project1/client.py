@@ -66,7 +66,7 @@ if __name__ == "__main__":
     tls = False
     use_default_port = True
 
-    if sys.argsv[counter] == "-p":
+    if sys.argv[counter] == "-p":
         port = int(sys.arv[counter])
         counter += 1
         use_default_port = False
