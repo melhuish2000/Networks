@@ -4,7 +4,7 @@ import ssl
 import sys
 
 
-
+#Runs the game
 def play_game(port: int, tls: bool, hostname: str, username: str):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     if tls:
@@ -19,13 +19,16 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
     
     words = get_word_list()
     secret_flag = ""
-   # attempt = []
     alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     attempt_chars = []
     live_game = True
     fg = True
+
+    #First guess
     guess = "oreas"
-    send(client, get_guess_message(guess, id));
+    send(client, get_guess_message(guess, id))
+
+    #The guessing loop
     while(live_game) :
         game_message = recieve(client)
         if game_message["type"] == "bye":
@@ -34,13 +37,18 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
             print("CORRECT!!!! the secret flag is: " + secret_flag)
             break
         if game_message["type"] == "retry":
+
+            #Unpack JSON
             words.remove(guess)
             guesses = game_message["guesses"]
             last_guess = guesses[len(guesses)-1]
             marks = last_guess["marks"]
             print(marks)
+
+            #Turn the last guess into a list of characters
             last_guess_char = list(guess)
 
+            #Check attempt and add correct characters to list
             for num in range(len(marks)):
                 if(marks[num] == 2 or marks[num] == 1 ):
                     if(last_guess_char[num] in attempt_chars):
@@ -48,24 +56,12 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
                     else:
                         attempt_chars.append(last_guess_char[num])
             
+            #Remove incorrect letters from alphabet list
             for num in range(len(marks)):
                  if(last_guess_char[num] in alphabet and marks[num] == 0 and last_guess_char[num] not in attempt_chars):
                     alphabet.remove(last_guess_char[num])
 
-      #              attempt[num] = last_guess_char[num]
-       #         elif(marks[num] == 1):
-        #            if(last_guess_char[num] in attempt):
-         #               pass
-          #          else:
-           #     alphabet.remove(last_guess_char[num])
-    #        for num in range(len(marks)):
-     #           if(marks[num] == 2):
-      #              attempt[num] = last_guess_char[num]
-       #         elif(marks[num] == 1):
-        #            if(last_guess_char[num] in attempt):
-         #               pass
-          #          else:
-           #     alphabet.remove(last_guess_char[num])
+            #Prepare and send next guess
             next_guess = get_next_guess(alphabet, attempt_chars, words)
             guess = next_guess
             print(next_guess)
@@ -82,13 +78,13 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
 
     
 
-
+#Hello message
 def get_hello_message(username):
     return {"type": "hello", "northeastern_username": username}
 
 
 
-
+#Format guess
 def get_guess_message(guess, game_id):
     return {"type": "guess", "id": game_id, "word": guess}
 
@@ -100,10 +96,11 @@ def send(client, dictionary):
     client.send(encoded)
 
 
-#Recieve
+#Recieve message
 def recieve(client) -> dict:
     return json.loads(client.recv(1000000).decode("utf-8").strip())
 
+#Read list of words from file and put into list
 def get_word_list():
     with open("Wordlist.txt", "r") as file:
         words = []
@@ -111,11 +108,13 @@ def get_word_list():
             words.append(line.strip())
     return words
 
-
+#Choose next Guess
 def get_next_guess(alphabet, attempt_chars, words:list):
     print(alphabet)
     print(attempt_chars)
     next_guess = ""
+
+    #If the list of known characters is 5, then it will only guess words with those 5 characters
     if len(attempt_chars) == 5:
         for word in words:
             for char in word:
@@ -124,7 +123,7 @@ def get_next_guess(alphabet, attempt_chars, words:list):
             else:
                 next_guess = word
                 return next_guess
-
+    #Will search for the next word only using letters that have not had a 0 returned (the loop in the retry method accounts for double letters)
     for word in words:
         for char in word:
             if char not in alphabet:
@@ -163,7 +162,3 @@ if __name__ == "__main__":
 
 
 
-    #{"type": "retry",
-    #  "id": <string>,
-    #  "guesses": [{ "word": <string>, "marks": <array> },
-    #              { "word": <string>, "marks": <array> }, ... ]}\n
