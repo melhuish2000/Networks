@@ -114,6 +114,8 @@ def get_word_list():
 
 
 def get_next_guess(alphabet, attempt_chars, words:list):
+    print(alphabet)
+    print(attempt_chars)
     next_guess = ""
     if len(attempt_chars) == 5:
         for word in words:
