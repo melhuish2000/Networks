@@ -116,6 +116,7 @@ def get_next_guess(alphabet, attempt_chars, words:list):
 
     #If the list of known characters is 5, then it will only guess words with those 5 characters
     if len(attempt_chars) == 5:
+        #Create check for repeats and dont guess them.
         for word in words:
             for char in word:
                 if char not in attempt_chars:
