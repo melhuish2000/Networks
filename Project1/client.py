@@ -31,7 +31,7 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
         if game_message["type"] == "bye":
             secret_flag = game_message["flag"]
             live_game = False
-            print(secret_flag)
+            print("CORRECT!!!! the secret flag is: " + secret_flag)
             break
         if game_message["type"] == "retry":
             words.remove(guess)
