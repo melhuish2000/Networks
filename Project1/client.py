@@ -6,19 +6,34 @@ import sys
 
 
 def play_game(port: int, tls: bool, hostname: str, username: str):
-
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     if tls:
         context = ssl.create_default_context()
         client = context.wrap_socket(client, server_hostname = hostname)
     server = (hostname, port)
-
     client.connect(server)
     send(client, get_hello_message(username))
     start_message = recieve(client)
     id = start_message["id"]
-    print(id)
+    print("This is the game id: " + id + "\n")
 
+    secret_flag = ""
+    live_game = True
+    fg = True
+    guess = "oreas"
+    send(client, get_guess_message(guess, id));
+    while(live_game) :
+        game_message = recieve(client)
+        if game_message["type"] == "bye":
+            secret_flag = game_message["flag"]
+            live_game = False
+            print(secret_flag)
+            break
+        if game_message["type"] == "retry":
+            print(game_message)
+            break;
+
+    
 
     
 
@@ -42,7 +57,6 @@ def send(client, dictionary):
 #Recieve
 def recieve(client) -> dict:
     return json.loads(client.recv(1000000).decode("utf-8").strip())
-
 
 
 
