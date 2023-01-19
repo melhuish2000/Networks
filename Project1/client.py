@@ -49,7 +49,8 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
                     else:
                         attempt_chars.append(last_guess_char[num])
                 else:
-                    alphabet.remove(last_guess_char[num])
+                    if(last_guess_char[num] in alphabet):
+                        alphabet.remove(last_guess_char[num])
 
       #              attempt[num] = last_guess_char[num]
        #         elif(marks[num] == 1):
