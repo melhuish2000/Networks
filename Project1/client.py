@@ -15,7 +15,6 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
     send(client, get_hello_message(username))
     start_message = recieve(client)
     id = start_message["id"]
-    print("This is the game id: " + id + "\n")
     
     words = get_word_list()
     secret_flag = ""
@@ -34,7 +33,6 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
         if game_message["type"] == "bye":
             secret_flag = game_message["flag"]
             live_game = False
-            print("CORRECT!!!! the secret flag is: " + secret_flag)
             break
         if game_message["type"] == "retry":
 
@@ -43,7 +41,6 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
             guesses = game_message["guesses"]
             last_guess = guesses[len(guesses)-1]
             marks = last_guess["marks"]
-            print(marks)
 
             #Turn the last guess into a list of characters
             last_guess_char = list(guess)
@@ -64,7 +61,6 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
             #Prepare and send next guess
             next_guess = get_next_guess(alphabet, attempt_chars, words)
             guess = next_guess
-            print(next_guess)
             send(client, get_guess_message(guess, id));
 
                     
@@ -110,13 +106,10 @@ def get_word_list():
 
 #Choose next Guess
 def get_next_guess(alphabet, attempt_chars, words:list):
-    print(alphabet)
-    print(attempt_chars)
     next_guess = ""
 
     #If the list of known characters is 5, then it will only guess words with those 5 characters
     if len(attempt_chars) == 5:
-        #Create check for repeats and dont guess them.
         for word in words:
             for char in word:
                 if char not in attempt_chars:
