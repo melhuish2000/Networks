@@ -98,7 +98,7 @@ def send(client, dictionary):
 def recieve(client) -> dict:
     return json.loads(client.recv(1000000).decode("utf-8").strip())
 
-def get_word_list() -> list:
+def get_word_list():
     file = open("Wordlist.txt", "r")
     lines = file.read().split("\n") 
     for word in lines:
