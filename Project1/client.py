@@ -150,6 +150,7 @@ if __name__ == "__main__":
 
     if sys.argv[counter] == "-s":
         tls = True
+        counter += 1
         if use_default_port:
             port = 27994
         
