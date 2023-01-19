@@ -37,9 +37,7 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
             words.remove(guess)
             guesses = game_message["guesses"]
             last_guess = guesses[len(guesses)-1]
-            marks = last_guess[marks]
-                
-            marks = guesses[guess]
+            marks = last_guess["marks"]
             last_guess_char = guess.split
 
             for num in range(len(marks)):
