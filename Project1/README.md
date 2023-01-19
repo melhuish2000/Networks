@@ -2,7 +2,7 @@ Strategy:
 
 I first wrote the command line parts, configuring for the port and the encrypted ports. This was my first time coding in python, so it was very challenging to learn the syntax. There could very well be an easy way to shorten some of this code, so if you are reviewing this code feel free to leave some tips on how I could have improved. With that being said, I will get into my strategy and some of the challenges I faced:
 
-1. First I wanted to analyze the word list. I ran a few commands (seen in the link posted below), to determine the frequencies of letters. I found the most common 5 letters and proceeded to find a word in the list that contained them. I landed on "OREAS". This will be the first guess made by my code every single game. 
+1. First I wanted to analyze the word list. I ran a few commands (seen in the link posted below), to determine the frequencies of letters. I found the most common 5 letters and proceeded to find a word in the list that contained them. I landed on "OREAS". This will be the first guess made by my code every single game. The result of the analysis is below:
 
 21060 R
  8392 A
