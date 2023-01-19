@@ -16,7 +16,8 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
     start_message = recieve(client)
     id = start_message["id"]
     print("This is the game id: " + id + "\n")
-    words = get_word_list
+    
+    words = get_word_list()
     secret_flag = ""
    # attempt = []
     alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
@@ -103,7 +104,7 @@ def get_word_list():
         words = []
         for line in file:
             words.append(line.strip())
-        return words
+    return words
 
 
 def get_next_guess(alphabet, attempt_chars, words:list):
