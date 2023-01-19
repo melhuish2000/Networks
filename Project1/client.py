@@ -11,7 +11,7 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
     if tls:
         context = ssl.create_default_context()
         client = context.wrap_socket(client, server_hostname = hostname)
-    server = ('localhost', 8080)
+    server = (hostname, port)
 
     client.connect(server)
     send(client, get_hello_message())
