@@ -16,8 +16,11 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
     start_message = recieve(client)
     id = start_message["id"]
     print("This is the game id: " + id + "\n")
-
+    words = get_word_list
     secret_flag = ""
+   # attempt = []
+    alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    attempt_chars = []
     live_game = True
     fg = True
     guess = "oreas"
@@ -30,8 +33,44 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
             print(secret_flag)
             break
         if game_message["type"] == "retry":
-            print(game_message)
-            break;
+            words.remove(guess)
+            marks = game_message["marks"]
+            last_guess_char = guess.split
+
+            for num in range(len(marks)):
+                if(marks[num] == 2 | marks[num] == 1 ):
+                    if(last_guess_char[num] in attempt_chars):
+                        pass
+                    else:
+                        attempt_chars.append(last_guess_char[num])
+                else:
+                    alphabet.remove(last_guess_char[num])
+
+      #              attempt[num] = last_guess_char[num]
+       #         elif(marks[num] == 1):
+        #            if(last_guess_char[num] in attempt):
+         #               pass
+          #          else:
+           #     alphabet.remove(last_guess_char[num])
+    #        for num in range(len(marks)):
+     #           if(marks[num] == 2):
+      #              attempt[num] = last_guess_char[num]
+       #         elif(marks[num] == 1):
+        #            if(last_guess_char[num] in attempt):
+         #               pass
+          #          else:
+           #     alphabet.remove(last_guess_char[num])
+            next_guess = get_next_guess(alphabet, attempt_chars, words)
+            guess = next_guess
+            print(next_guess)
+            send(client, get_guess_message(guess, id));
+
+                    
+            
+
+             
+            
+            
 
     
 
@@ -40,6 +79,8 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
 
 def get_hello_message(username):
     return {"type": "hello", "northeastern_username": username}
+
+
 
 
 def get_guess_message(guess, game_id):
@@ -53,11 +94,38 @@ def send(client, dictionary):
     client.send(encoded)
 
 
-
 #Recieve
 def recieve(client) -> dict:
     return json.loads(client.recv(1000000).decode("utf-8").strip())
 
+def get_word_list() -> list:
+    file = open("Wordlist.txt", "r")
+    lines = file.read().split("\n") 
+    for word in lines:
+        words = word.strip().split()
+    return words
+
+
+def get_next_guess(alphabet, attempt_chars, words:list):
+    next_guess = ""
+    if len(attempt_chars) == 5:
+        for word in words:
+            for char in word:
+                if char not in attempt_chars:
+                    break
+            else:
+                next_guess = word
+                return next_guess
+
+    for word in words:
+        for char in word:
+            if char not in alphabet:
+                break
+        else:
+            next_guess = word
+            return next_guess
+                
+            
 
 
 if __name__ == "__main__":
