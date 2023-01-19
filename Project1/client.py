@@ -39,7 +39,7 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
             last_guess = guesses[len(guesses)-1]
             marks = last_guess["marks"]
             print(marks)
-            last_guess_char = guess.split
+            last_guess_char = list(guess)
             print(last_guess_char[0])
 
             for num in range(len(marks)):
