@@ -43,6 +43,9 @@ def send(client, dictionary):
 def recieve(client) -> dict:
     return json.loads(client.recv(1000000).decode("utf-8").strip())
 
+
+
+
 if __name__ == "__main__":
     counter = 1
 
