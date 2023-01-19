@@ -38,7 +38,9 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
             guesses = game_message["guesses"]
             last_guess = guesses[len(guesses)-1]
             marks = last_guess["marks"]
+            print(marks)
             last_guess_char = guess.split
+            print(last_guess_char)
 
             for num in range(len(marks)):
                 if(marks[num] == 2 | marks[num] == 1 ):
