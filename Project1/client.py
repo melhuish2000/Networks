@@ -137,7 +137,7 @@ def get_next_guess(alphabet, attempt_chars, words:list):
 
 
 if __name__ == "__main__":
-    counter = 0
+    counter = 1
 
     port = 27993
     tls = False
