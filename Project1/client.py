@@ -14,7 +14,7 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
     server = (hostname, port)
 
     client.connect(server)
-    send(client, get_hello_message())
+    send(client, get_hello_message(username))
     start_message = recieve(client)
     id = start_message["id"]
     print(id)
