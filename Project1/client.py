@@ -43,22 +43,6 @@ def send(client, dictionary):
 def recieve(client) -> dict:
     return json.loads(client.recv(1000000).decode("utf-8").strip())
 
-#python dictionary exampel
-
-
-dictionary = dict()
-
-dictionary["a"] = 5
-dictionary[0] = 7
-
-
-dictionary2 = {
-    "key1": "value1",
-    "key2": 2
-}
-
-print(dictionary2["key1"]) # value1
-
 if __name__ == "__main__":
     counter = 1
 
