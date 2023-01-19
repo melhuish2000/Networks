@@ -28,6 +28,7 @@ def play_game(port: int, tls: bool, hostname: str, username: str):
     send(client, get_guess_message(guess, id));
     while(live_game) :
         game_message = recieve(client)
+        print(game_message)
         if game_message["type"] == "bye":
             secret_flag = game_message["flag"]
             live_game = False
